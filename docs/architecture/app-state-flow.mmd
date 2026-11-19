@@ -1,0 +1,37 @@
+flowchart TD
+    A["React Konsolu<br/>App props: devices, incidents, apiConnected"] --> B{"VITE_AEGIS_API_ORIGIN<br/>tanımlı mı?"}
+    B -->|Hayır| C["Bağlantı bekleniyor<br/>devices = [] · incidents = []"]
+    B -->|Evet| D["GET /healthz<br/>credentials: include"]
+    D -->|4xx / 5xx / ağ hatası| C
+    D -->|200 OK| E["GET /v1/devices + /v1/events"]
+    E -->|Hata| C
+    E -->|200 OK| F{"Kayıt sayısı"}
+    F -->|0 cihaz| G["Eşleşmiş cihaz yok"]
+    F -->|0 olay| H["Gerçek olay kaydı yok"]
+    F -->|Gerçek kayıt var| I["Gerçek veri bağlantısı · Hazır<br/>SVG Cihaz Ağı · Olay kartları"]
+    I --> J{"Kullanıcı işlem istedi mi?"}
+    J -->|Hayır| K["İzleme modu<br/>30 sn polling"]
+    J -->|Evet| L["Onay modalı<br/>explicit_user_confirmation"]
+    L -->|Vazgeç| K
+    L -->|Onayla| M["POST /v1/commands<br/>DELETE /v1/shares/:id"]
+    M -->|202 / 200| N["İşlem cihaz kuyruğuna alındı"]
+    M -->|428| O["Kullanıcı onayı gerekli"]
+    M -->|403 CORS| P["Origin izinli değil"]
+    K --> D
+
+    style A fill:#FFFFFF,stroke:#D1D9E0,color:#071A2B
+    style B fill:#FFF8E6,stroke:#F6C86E,color:#966709
+    style C fill:#FFF8E6,stroke:#F6C86E,color:#966709
+    style D fill:#EAF8F5,stroke:#6ED6C1,color:#237D6B
+    style E fill:#EAF8F5,stroke:#6ED6C1,color:#237D6B
+    style F fill:#FFF8E6,stroke:#F6C86E,color:#966709
+    style G fill:#FFF8E6,stroke:#F6C86E,color:#966709
+    style H fill:#FFF8E6,stroke:#F6C86E,color:#966709
+    style I fill:#EAF8F5,stroke:#6ED6C1,color:#237D6B
+    style J fill:#FFFFFF,stroke:#D1D9E0,color:#071A2B
+    style K fill:#FFFFFF,stroke:#D1D9E0,color:#071A2B
+    style L fill:#FFF8E6,stroke:#F6C86E,color:#966709
+    style M fill:#EAF8F5,stroke:#6ED6C1,color:#237D6B
+    style N fill:#EAF8F5,stroke:#6ED6C1,color:#237D6B
+    style O fill:#FDECEC,stroke:#C94A4A,color:#8C2F2F
+    style P fill:#FDECEC,stroke:#C94A4A,color:#8C2F2F

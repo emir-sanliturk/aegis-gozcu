@@ -1,0 +1,68 @@
+{
+  "schema_version": "1.0.0",
+  "provider": "Cloudflare WAF + DDoS + Privacy Proxy",
+  "egress_privacy": {
+    "mode": "MASQUE / Cloudflare Privacy Proxy",
+    "strip_raw_client_ip": true,
+    "abuse_control_hash": "HMAC/SHA-256(pepper:raw_ip)"
+  },
+  "ddos_protection": {
+    "l3_l4_mitigation": "enabled",
+    "l7_http_flood_sensitivity": "high",
+    "managed_waf_ruleset": "Cloudflare OWASP Core Ruleset"
+  },
+  "rate_limits": [
+    {
+      "id": "rl_auth_login",
+      "path": "/v1/auth/login",
+      "method": "POST",
+      "requests_per_minute": 5,
+      "mitigation_timeout_seconds": 600,
+      "action": "block"
+    },
+    {
+      "id": "rl_device_pairing",
+      "path": "/v1/devices/pair",
+      "method": "POST",
+      "requests_per_minute": 10,
+      "mitigation_timeout_seconds": 300,
+      "action": "managed_challenge"
+    },
+    {
+      "id": "rl_event_ingest",
+      "path": "/v1/events/ingest",
+      "method": "POST",
+      "requests_per_minute": 120,
+      "mitigation_timeout_seconds": 120,
+      "action": "block"
+    },
+    {
+      "id": "rl_ephemeral_share",
+      "path": "/v1/shares/*",
+      "method": "POST",
+      "requests_per_minute": 15,
+      "mitigation_timeout_seconds": 300,
+      "action": "block"
+    },
+    {
+      "id": "rl_remote_command",
+      "path": "/v1/commands/*",
+      "method": "POST",
+      "requests_per_minute": 10,
+      "mitigation_timeout_seconds": 600,
+      "action": "block"
+    }
+  ],
+  "custom_waf_rules": [
+    {
+      "id": "waf_block_non_tls",
+      "expression": "not ssl",
+      "action": "block"
+    },
+    {
+      "id": "waf_block_raw_media_upload",
+      "expression": "http.request.uri.path contains \"/v1/events\" and (http.request.body.raw contains \"image/jpeg\" or http.request.body.raw contains \"video/mp4\")",
+      "action": "block"
+    }
+  ]
+}

@@ -1,0 +1,40 @@
+services:
+  cloud-correlator:
+    build:
+      context: ../..
+      dockerfile: apps/cloud-correlator/Dockerfile
+    ports:
+      - "8080:8080"
+    environment:
+      NODE_ENV: production
+      PORT: "8080"
+      LOG_LEVEL: info
+      AEGIS_READY: "true"
+      AEGIS_SQLITE_PATH: /var/lib/aegis/aegis.sqlite
+      AEGIS_IP_PEPPER: "${AEGIS_IP_PEPPER:?AEGIS_IP_PEPPER required}"
+      ALLOWED_API_ORIGIN: "https://console.aegis.example"
+      AEGIS_ALLOWED_ORIGINS: "https://console.aegis.example"
+    read_only: true
+    security_opt:
+      - no-new-privileges:true
+    cap_drop:
+      - ALL
+    volumes:
+      - aegis_sqlite:/var/lib/aegis
+    tmpfs:
+      - /tmp:size=16m
+    healthcheck:
+      test:
+        [
+          "CMD",
+          "/nodejs/bin/node",
+          "-e",
+          "fetch('http://127.0.0.1:8080/healthz').then(r => process.exit(r.ok ? 0 : 1)).catch(() => process.exit(1))"
+        ]
+      interval: 30s
+      timeout: 5s
+      retries: 3
+      start_period: 10s
+
+volumes:
+  aegis_sqlite:

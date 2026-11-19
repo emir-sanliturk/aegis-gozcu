@@ -1,0 +1,45 @@
+export const uiLabels = {
+  appName: 'Aegis Gözcü',
+  appSubtitle: 'Kişisel Güvenlik ve Olay Merkezi',
+
+  overview: 'Durum Özeti',
+  devices: 'Bağlı Cihazlar',
+  topology: 'Cihaz Ağı',
+  incidents: 'Güvenlik Olayları',
+  diagnostics: 'Sistem Durumu',
+  commands: 'Onaylı İşlemler',
+  shares: 'Güvenli Paylaşımlar',
+  settings: 'Ayarlar',
+
+  realData: 'Gerçek Veri',
+  demoMode: 'Deneme Modu',
+
+  noPairedDevices: 'Eşleşmiş cihaz yok',
+  noRealEvents: 'Gerçek olay kaydı yok',
+  noData: 'Veri yok',
+  noDiagnostics: 'Tanılama verisi yok',
+  noActiveShares: 'Aktif paylaşım yok',
+
+  pairDevice: 'Cihaz eşleştir',
+  revokeDevice: 'Cihaz bağlantısını kaldır',
+  viewDetails: 'Ayrıntıları görüntüle',
+  requestDiagnostics: 'Tanılama iste',
+  confirmAction: 'İşlemi onayla',
+  confirmationTitle: 'İşlem onayı gerekiyor',
+  cancel: 'Vazgeç',
+  close: 'Kapat',
+
+  commandApproved: 'İşlem onaylandı',
+  commandQueued: 'İşlem cihaz kuyruğuna alındı',
+  commandFailed: 'İşlem gönderilemedi',
+  confirmationRequired: 'Kullanıcı onayı gerekli',
+
+  secure: 'Doğrulanmış',
+  monitoring: 'İzleniyor',
+  waitingApproval: 'Onay bekliyor',
+  awaitingConnection: 'Bağlantı bekleniyor',
+  realConnectionActive: 'Gerçek veri bağlantısı',
+  ready: 'Hazır',
+  unavailable: 'Kullanılamıyor',
+  revoked: 'İptal edildi',
+} as const;

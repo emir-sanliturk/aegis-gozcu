@@ -1,0 +1,6 @@
+{
+  "name": "Aegis Telemetry",
+  "description": "Precision security posture, network topology, and incident telemetry intelligence console.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
