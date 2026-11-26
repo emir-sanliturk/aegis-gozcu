@@ -19,7 +19,7 @@
     "render:promo": "node scripts/render-promo-video.mjs"
   },
   "dependencies": {
-    "@google/genai": "^2.4.0",
+    "@google/genai": "^3.6.1",
     "@react-three/drei": "^10",
     "@react-three/fiber": "^9",
     "@tailwindcss/vite": "^4.3.3",
